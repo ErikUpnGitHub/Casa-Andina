@@ -1,0 +1,126 @@
+
+
+/* Ícono flotante del chat */
+#chatIconContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--background-color);
+  color: white;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 10000;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+  border: 2px solid var(--primary-color);
+}
+
+#chatIconContainer:hover {
+  transform: scale(1.1);
+}
+
+/* Ventana del chat */
+#chatbox {
+  display: none;
+  position: fixed;
+  bottom: 120px;
+  right: 24px;
+  width: 320px;
+  height: 460px;
+  background: var(--background-color);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  padding: 16px;
+  z-index: 9999;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* Animación */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Contenedor de mensajes */
+#messages {
+  height: 320px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Estilos de los mensajes */
+.msg {
+  margin-bottom: 12px;
+  line-height: 1.4;
+  font-size: 15px;
+  word-wrap: break-word;
+}
+
+.user {
+  text-align: right;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.bot {
+  text-align: left;
+  color:  #2b2f9e;
+  font-weight: 600;
+}
+
+/* Links en el chat */
+.chat-link {
+  color: var(--primary-color);
+  text-decoration: underline;
+  margin-left: 8px;
+  transition: color 0.3s;
+}
+.chat-link:hover {
+  color: #2b2f9e;
+}
+
+#userInput {
+  width: calc(100% - 90px);
+  padding: 10px 14px;
+  border: none;
+  border-radius: 12px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  color: #333;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+}
+#userInput:focus {
+  box-shadow: 0 0 0 2px #4e54c860;
+}
+
+#sendBtn {
+  width: 70px;
+  margin-left: 8px;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color-select));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+#sendBtn:hover {
+  background: linear-gradient(135deg, #3d42a0, #6e72c4);
+}

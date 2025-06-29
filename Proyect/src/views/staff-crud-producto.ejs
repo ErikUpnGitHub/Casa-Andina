@@ -1,0 +1,57 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">PRODUCTOS</span>
+
+    <a href="/staff-crud-producto/registrar" class="btn btn-custom mb-3">Registrar nuevo producto</a>
+
+    <input type="text" id="searchInput" class="form-control mb-3" placeholder="🔍 Buscar producto...">
+
+    <div class="table-responsive">
+      <table class="table align-middle mb-0 transparent-table">
+        <thead>
+          <tr>
+            <th class="text-info-subtitle">Nombre</th>
+            <th class="text-info-subtitle">Precio</th>
+            <th class="text-info-subtitle">Categoría</th>
+            <th class="text-info-subtitle">Estado</th>
+            <th class="text-info-subtitle">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% productos.forEach(p => { %>
+            <tr class="<%= p.estado === 'activo' ? '' : 'table-secondary' %> text-info-subtitle">
+              <td><%= p.nombre %></td>
+              <td>S/ <%= Number(p.precio).toFixed(2) %></td>
+              <td><%= p.categoria %></td>
+              <td><%= p.estado %></td>
+              <td>
+                <div class="d-flex gap-2 flex-wrap">
+                  <a href="/staff-crud-producto/editar/<%= p.idProducto %>" class="btn btn-custom">Editar</a>
+                  <form action="/staff-crud-producto/cambiar-estado/<%= p.idProducto %>" method="POST"
+                        onsubmit="return confirm('¿Seguro que deseas cambiar el estado de este producto?')">
+                    <input type="hidden" name="estadoActual" value="<%= p.estado %>">
+                    <button type="submit" class="btn btn-custom">
+                      <%= p.estado === 'activo' ? 'Desactivar' : 'Activar' %>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const searchTerm = this.value.toLowerCase();
+    const rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(searchTerm) ? "" : "none";
+    });
+  });
+</script>

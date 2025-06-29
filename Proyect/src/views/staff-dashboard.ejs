@@ -1,0 +1,292 @@
+<div class="container mt-4">
+  <h1 class="mb-4 text-info-title text-center">Panel de Estadísticas</h1>
+
+  <!-- Fila 2: Empleados + Inscripciones -->
+  <div class="row mt-4">
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm rounded">
+        <div class="card-header bg-info text-white text-info-subtitle fw-semibold">Empleados por Función</div>
+        <div class="card-body">
+          <canvas id="empleadosChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm rounded">
+        <div class="card-header bg-dark text-white text-info-subtitle fw-semibold">Inscripciones por Estado</div>
+        <div class="card-body" style="max-height: 280px;">
+          <canvas id="inscripcionesChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fila 3: Servicios + Reservas -->
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm rounded">
+        <div class="card-header bg-success text-white text-info-subtitle fw-semibold">Servicios por Categoría y Estado</div>
+        <div class="card-body"><canvas id="serviciosChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm rounded">
+        <div class="card-header bg-danger text-white text-info-subtitle fw-semibold">Reservas por Estado (últimos 30 días)</div>
+        <div class="card-body"><canvas id="reservasChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <!-- Distribución de Habitaciones -->
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm rounded">
+        <div class="card-header bg-primary text-white text-info-subtitle fw-semibold">Distribución de Habitaciones</div>
+        <div class="card-body">
+          <canvas id="habitacionesChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clientes + Productos + Horarios -->
+    <div class="col-md-6 mb-4 d-flex flex-column">
+      <div class="card mb-4 shadow-sm rounded text-center">
+        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+          <h5 class="card-title text-info-subtitle text-muted">Clientes Activos</h5>
+          <h1 class="display-3 text-success fw-bold" id="clientesActivosCount">0</h1>
+        </div>
+      </div>
+
+      <div class="card mb-4 shadow-sm rounded">
+        <div class="card-header bg-warning text-dark text-info-subtitle fw-semibold">Productos por Categoría</div>
+        <div class="card-body px-3">
+          <ul id="productosLista" class="list-group list-group-flush"></ul>
+        </div>
+      </div>
+
+      <div class="card shadow-sm rounded">
+        <div class="card-header bg-info text-white text-info-subtitle fw-semibold">Horarios por Actividad</div>
+        <div class="card-body px-3">
+          <ul id="horariosLista" class="list-group list-group-flush"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js y script de datos -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script id="chart-data" type="application/json">
+  <%- JSON.stringify({
+    habitaciones,
+    clientes,
+    servicios,
+    empleados,
+    productos,
+    horarios,
+    inscripciones,
+    reservas
+  }) %>
+</script>
+
+<script>
+  const chartData = JSON.parse(document.getElementById("chart-data").textContent);
+
+  // Habitaciones
+  new Chart(document.getElementById('habitacionesChart'), {
+    type: 'pie',
+    data: {
+      labels: chartData.habitaciones.map(e => e.estado),
+      datasets: [{
+        data: chartData.habitaciones.map(e => e.cantidad),
+        backgroundColor: ['#4e73df', '#1cc88a', '#f6c23e', '#e74a3b']
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: { display: true, text: 'Estado de Habitaciones' }
+      }
+    }
+  });
+
+  // Clientes activos
+  const totalClientesActivos = chartData.clientes
+    .filter(c => c.estado === 'activo')
+    .reduce((sum, c) => sum + c.cantidad, 0);
+  document.getElementById('clientesActivosCount').textContent = totalClientesActivos;
+
+  // Productos por Categoría
+  const ulProductos = document.getElementById('productosLista');
+  chartData.productos.forEach(p => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+    li.textContent = p.categoria || 'Sin categoría';
+    const span = document.createElement('span');
+    span.className = 'badge bg-primary rounded-pill';
+    span.textContent = p.cantidad;
+    li.appendChild(span);
+    ulProductos.appendChild(li);
+  });
+
+  // Horarios por Actividad
+  const ulHorarios = document.getElementById('horariosLista');
+  chartData.horarios.forEach(h => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+    const estado = h.estado || 'Sin estado';
+    li.innerHTML = `<span>${estado.charAt(0).toUpperCase() + estado.slice(1)}</span>`;
+    const span = document.createElement('span');
+    span.className = 'badge bg-info rounded-pill';
+    span.textContent = h.cantidad;
+    li.appendChild(span);
+    ulHorarios.appendChild(li);
+  });
+
+  // Empleados por Función
+  new Chart(document.getElementById('empleadosChart'), {
+    type: 'bar',
+    data: {
+      labels: chartData.empleados.map(e => e.funcion || 'Sin función'),
+      datasets: [{
+        label: 'Empleados por Función',
+        data: chartData.empleados.map(e => e.cantidad),
+        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      indexAxis: 'y',
+      scales: {
+        x: { beginAtZero: true, ticks: { stepSize: 1 } }
+      },
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+
+  // Inscripciones por Estado
+  const estadosInsc = chartData.inscripciones.map(e => e.estado);
+  const cantidadesInsc = chartData.inscripciones.map(e => e.cantidad);
+  const coloresInsc = ['#36a2eb', '#ffcd56', '#ff6384', '#4bc0c0'];
+
+  new Chart(document.getElementById('inscripcionesChart'), {
+    type: 'line',
+    data: {
+      labels: estadosInsc,
+      datasets: [{
+        label: 'Inscripciones',
+        data: cantidadesInsc,
+        segment: {
+          borderColor: ctx => coloresInsc[ctx.p0DataIndex] || '#999',
+          borderWidth: 3
+        },
+        pointBackgroundColor: coloresInsc,
+        fill: false,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true, position: 'right' },
+        title: { display: true, text: 'Inscripciones por Estado' }
+      },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+
+  // Servicios por Categoría y Estado
+  const serviciosCatEstado = {};
+  chartData.servicios.forEach(({ categoria = 'Sin categoría', estado, cantidad }) => {
+    if (!serviciosCatEstado[categoria]) serviciosCatEstado[categoria] = {};
+    serviciosCatEstado[categoria][estado] = cantidad;
+  });
+
+  const categorias = Object.keys(serviciosCatEstado);
+  const estados = [...new Set(chartData.servicios.map(s => s.estado))];
+  const datasetsServicios = estados.map(estado => ({
+    label: estado,
+    data: categorias.map(cat => serviciosCatEstado[cat][estado] || 0),
+    backgroundColor: estado === 'activo' ? 'green' : 'orange'
+  }));
+
+  new Chart(document.getElementById('serviciosChart'), {
+    type: 'bar',
+    data: {
+      labels: categorias,
+      datasets: datasetsServicios
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: { display: true, text: 'Servicios por Categoría y Estado' },
+        legend: { position: 'top' }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          ticks: {
+            display: false // Oculta los nombres (categorías)
+          },
+          grid: {
+            display: false // Opcional: oculta líneas verticales
+          }
+        },
+        y: {
+          stacked: true,
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
+
+  // Reservas por Estado (últimos 30 días)
+  const reservasPorFecha = {};
+  chartData.reservas.forEach(({ fecha, estado, cantidad }) => {
+    const f = new Date(fecha).toISOString().slice(0, 10);
+    if (!reservasPorFecha[f]) reservasPorFecha[f] = {};
+    reservasPorFecha[f][estado] = cantidad;
+  });
+
+  const fechas = Object.keys(reservasPorFecha).sort();
+  const fechasFormateadas = fechas.map(f => {
+    const date = new Date(f);
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${mm}/${dd}`;
+  });
+
+  const estadosR = [...new Set(chartData.reservas.map(r => r.estado))];
+  const datasetsReservas = estadosR.map(estado => ({
+    label: estado,
+    data: fechas.map(f => reservasPorFecha[f][estado] || 0),
+    borderWidth: 1
+  }));
+
+  new Chart(document.getElementById('reservasChart'), {
+    type: 'line',
+    data: {
+      labels: fechasFormateadas,
+      datasets: datasetsReservas
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: { display: true, text: 'Reservas por Fecha y Estado' }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+
+</script>

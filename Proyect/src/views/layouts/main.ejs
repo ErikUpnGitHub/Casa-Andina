@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    
+    <%- include('../partials/head') %>
+
+    <link rel="stylesheet" href="/css/chatbot.css">
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <%- include('../partials/navigation') %>
+
+    <main class="main-content" id="main-content">
+        <%- body %>
+    </main>
+
+    <!-- FOOTER -->
+    <%- include('../partials/footer') %>
+
+    <%- include('../partials/chatbot') %>
+
+    <script src="/js/chatbot.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid full-box">
+    <span class="text text-info-title d-block mb-4 text-center">REGISTRAR RESEÑA</span>
+
+    <form action="/registrar-resenia" method="POST">
+      <div class="row justify-content-center">
+        <input type="hidden" name="idServicio" value="<%= idServicio %>">
+
+        <div class="col-12 col-md-8 mb-3 text-center">
+          <label class="text-info-subtitle d-block mb-2">CALIFICACIÓN:</label>
+          <div class="star-rating d-inline-block">
+            <% for(let i = 5; i >= 1; i--) { %>
+              <input type="radio" id="star<%= i %>" name="calificacion" value="<%= i %>" required />
+              <label for="star<%= i %>" title="<%= i %> estrellas">&#9733;</label>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-8 mb-3">
+          <label for="comentario" class="text-info-subtitle">COMENTARIO:</label>
+          <textarea name="comentario" id="comentario" class="form-control" rows="7" placeholder="Escribe tu opinión sobre el servicio..."></textarea>
+        </div>
+
+        <div class="col-12 col-md-8 d-flex justify-content-center gap-2 mt-2">
+          <button type="submit" class="btn btn-custom">ENVIAR RESEÑA</button>
+          <a href="/request" class="btn btn-custom">CANCELAR</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

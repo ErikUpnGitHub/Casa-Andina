@@ -1,0 +1,198 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="col-md-12 mb-4">
+            <span class="text tile-text d-block mb-3">
+                <%= actividad.detalle %> - HORARIOS
+            </span>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="box-content p-3 mb-4">
+                    <img src="/img/activity/<%= actividad.idActividad %>.png" alt="Imagen"
+                        style="width: 100%; max-height: 360px; object-fit: cover;" class="mb-3 only-img" />
+
+                    <p class="text-info-content mb-3">
+                        <%= actividad.descripcion %>
+                    </p>
+
+                    <p class="text-info-content mb-3">
+                        <strong>Duración:</strong>
+                        <%= actividad.duracion %> minutos
+                    </p>
+                    <p class="text-info-content mb-3">
+                        <strong>Precio:</strong>
+                        <%= Number(actividad.precio)===0 ? "Gratis" : "S/" + Number(actividad.precio).toFixed(2) %>
+                    </p>
+                </div>
+
+                <div id="actividadDatos" data-precio="<%= Number(actividad.precio).toFixed(2) %>"
+                    style="display: none;">
+                </div>
+
+                <div class="box-content p-3 mb-4">
+                    <div class="row align-items-center mb-3">
+                        <!-- Cantidad -->
+                        <div class="col-6">
+                            <label for="cantidad" class="form-label"><strong>Cantidad:</strong></label>
+                            <input type="number" id="cantidad" class="form-control" min="1" value="1">
+                        </div>
+                        <!-- Total -->
+                        <div class="col-6">
+                            <label class="form-label"><strong>Total:</strong></label>
+                            <p class="form-control-plaintext mb-0">
+                                S/<span id="totalTexto">
+                                    <%= Number(actividad.precio).toFixed(2) %>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Botón Pagar -->
+                    <button class="btn btn-primary w-100" id="btnPagar">Pagar</button>
+
+                    <form id="formInscripcion" action="/registrarInscripcion" method="POST" style="display: none;">
+                        <input type="hidden" name="idHraActividad" id="inputIdHraActividad">
+                        <input type="hidden" name="cantidad" id="inputCantidad">
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- Columna derecha: Horarios -->
+            <div class="col-md-6">
+                <div class="box-content p-3 mb-4 shadow-sm">
+                    <% if (horarios.length> 0) { %>
+                        <div class="accordion" id="accordionHorarios">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingHorarios">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseHorarios" aria-expanded="true"
+                                        aria-controls="collapseHorarios"
+                                        style="background-color: var(--primary-color); color: white;">
+                                        Horarios disponibles hoy:
+                                    </button>
+                                </h2>
+                                <div id="collapseHorarios" class="accordion-collapse collapse show"
+                                    aria-labelledby="headingHorarios" data-bs-parent="#accordionHorarios">
+                                    <div class="accordion-body p-0">
+                                        <ul class="list-group list-group-flush" id="listaHorarios">
+                                            <% const ahora=new Date(); %>
+                                                <% horarios.forEach((horario)=> {
+                                                    const inicio = new Date(horario.fchInicio);
+                                                    const estaPasado = inicio < ahora; const
+                                                        sinCupos=horario.cuposRestantes===0; const
+                                                        deshabilitado=estaPasado || sinCupos; %>
+                                                        <li class="list-group-item horario-item <%= deshabilitado ? 'disabled-horario' : '' %>"
+                                                            data-id="<%= horario.idHraActividad %>"
+                                                            data-cupos="<%= horario.cuposRestantes %>">
+                                                            <strong>Inicio:</strong>
+                                                            <%= inicio.toLocaleTimeString([], { hour: '2-digit' ,
+                                                                minute: '2-digit' }) %>
+                                                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                                <strong>Fin:</strong>
+                                                                <%= new Date(horario.fchFin).toLocaleTimeString([], {
+                                                                    hour: '2-digit' , minute: '2-digit' }) %>
+                                                                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                                    <strong>Cupos restantes:</strong>
+                                                                    <%= horario.cuposRestantes %>
+                                                                        <% if (estaPasado) { %> <span
+                                                                                class="text-danger ms-2">(Finalizado)</span>
+                                                                            <% } %>
+                                                                                <% if (!estaPasado && sinCupos) { %>
+                                                                                    <span
+                                                                                        class="text-danger ms-2">(Agotado)</span>
+                                                                                    <% } %>
+                                                        </li>
+                                                        <% }) %>
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } else { %>
+                            <p>No hay horarios disponibles para hoy.</p>
+                            <% } %>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    const listaHorarios = document.getElementById('listaHorarios');
+    let horarioSeleccionado = null;
+
+    listaHorarios.addEventListener('click', (e) => {
+        const clickedItem = e.target.closest('.horario-item');
+        if (!clickedItem) return;
+
+        listaHorarios.querySelectorAll('.horario-item').forEach(item => {
+            item.classList.remove('selected');
+        });
+
+        clickedItem.classList.add('selected');
+        horarioSeleccionado = clickedItem;
+
+        const inputSeleccion = document.getElementById('horarioSeleccionadoInput');
+        if (inputSeleccion) {
+            inputSeleccion.value = clickedItem.getAttribute('data-id');
+        }
+    });
+
+    const cantidadInput = document.getElementById('cantidad');
+    const totalTexto = document.getElementById('totalTexto');
+    const precioActividad = parseFloat(document.getElementById('actividadDatos').dataset.precio);
+
+    cantidadInput.addEventListener('input', () => {
+        const cantidad = Math.max(1, parseInt(cantidadInput.value) || 1);
+        const total = cantidad * precioActividad;
+        totalTexto.textContent = total.toFixed(2);
+    });
+
+    cantidadInput.addEventListener('input', () => {
+        let cantidad = parseInt(cantidadInput.value);
+
+        if (isNaN(cantidad) || cantidad < 1) {
+            cantidad = 1;
+            cantidadInput.value = 1;
+        }
+
+        const total = cantidad * precioActividad;
+        totalTexto.textContent = total.toFixed(2);
+    });
+
+    document.getElementById('btnPagar').addEventListener('click', () => {
+        const cantidad = parseInt(cantidadInput.value) || 1;
+
+        if (cantidad < 1) {
+            alert('La cantidad mínima es 1.');
+            return;
+        }
+
+        if (!horarioSeleccionado) {
+            alert('Debe seleccionar un horario primero.');
+            return;
+        }
+
+        const cuposDisponibles = parseInt(horarioSeleccionado.getAttribute('data-cupos'));
+
+        if (cantidad > cuposDisponibles) {
+            alert(`No hay suficientes cupos. Solo quedan ${cuposDisponibles}.`);
+            return;
+        }
+
+        // Rellenar y enviar el formulario
+        document.getElementById('inputIdHraActividad').value = horarioSeleccionado.dataset.id;
+        document.getElementById('inputCantidad').value = cantidad;
+
+        document.getElementById('formInscripcion').submit();
+    });
+
+</script>

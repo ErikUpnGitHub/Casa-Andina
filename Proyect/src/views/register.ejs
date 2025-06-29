@@ -1,0 +1,146 @@
+<div class="content-wrapper">
+
+    <span class="text tile-text">
+        <%= __('acs-register') %>
+    </span>
+
+    <form action="/register" method="POST">
+
+        <div class="row mb-3 tbx-access">
+            <div class="col">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Juan"
+                        required />
+                    <label for="firstName">
+                        <%= __('acs-firstname') %>
+                    </label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Pérez"
+                        required />
+                    <label for="lastName">
+                        <%= __('acs-lastname') %>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-floating mb-3 tbx-access">
+            <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" required />
+            <label for="email">
+                <%= __('acs-email') %>
+            </label>
+        </div>
+
+        <div class="row mb-3 tbx-access">
+            <div class="col">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="••••••••"
+                        required />
+                    <label for="password">
+                        <%= __('acs-password') %>
+                    </label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                        placeholder="••••••••" required />
+                    <label for="confirmPassword">
+                        <%= __('acs-password-confirm') %>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-floating mb-3 tbx-access">
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="<%= __('acs-phone') %>"
+                required />
+            <label for="phone">
+                <%= __('acs-phone') %>
+            </label>
+        </div>
+
+        <div class="row mb-3 tbx-access">
+            <div class="col-4">
+                <div class="form-floating">
+
+                    <select class="form-select" id="docType" name="docType" required>
+                        <% docTypes.forEach(function(doc) { %>
+                            <option value="<%= doc.idTipoDoc %>">
+                                <%= doc.nombre %>
+                            </option>
+                            <% }); %>
+                    </select>
+
+                    <label for="docType">
+                        <%= __('acs-doc-type') %>
+                    </label>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="docNumber" name="docNumber" placeholder="12345678A"
+                        required />
+                    <label for="docNumber">
+                        <%= __('acs-doc-number') %>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3 tbx-access">
+            <div class="col">
+                <div class="form-floating">
+                    <select class="form-select" id="nationality" name="nationality" required>
+                        <option value="">Cargando países...</option>
+                    </select>
+                    <label for="nationality">
+                        <%= __('acs-nationality') %>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-75 btn-login">
+            <%= __('acs-register') %>
+        </button>
+
+    </form>
+
+
+    <p class="text-center mt-3 text-muted">
+        <%= __('acs-question') %>
+            <a class="text-link" href="/login">
+                <%= __('acs-login') %>
+            </a>
+    </p>
+</div>
+
+<script>
+  document.querySelector("form").addEventListener("submit", function (e) {
+    const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirmPassword").value;
+
+    if (password !== confirm) {
+      e.preventDefault(); // evita que se envíe el formulario
+      showError("Las contraseñas no coinciden.");
+    }
+  });
+
+  function showError(msg) {
+    let existingAlert = document.getElementById("passwordError");
+    if (!existingAlert) {
+      const div = document.createElement("div");
+      div.className = "alert alert-danger text-center mt-2";
+      div.id = "passwordError";
+      div.innerText = msg;
+      const form = document.querySelector("form");
+      form.parentNode.insertBefore(div, form);
+    } else {
+      existingAlert.innerText = msg;
+    }
+  }
+</script>

@@ -1,0 +1,63 @@
+<div class="stepper-wrapper">
+    <div class="stepper-item">
+        <div class="step-counter process">1</div>
+        <div class="step-name"><%= __('step-bones') %></div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">2</div>
+        <div class="step-name"><%= __('step-room-rate') %></div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">3</div>
+        <div class="step-name"><%= __('step-stay') %></div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">4</div>
+        <div class="step-name"><%= __('step-total') %></div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">5</div>
+        <div class="step-name"><%= __('step-finalized') %></div>
+    </div>
+</div>
+<div class="content-wrapper">
+    <div class="step-content d-flex justify-content-center">
+        <div class="box">
+            <p class="text-info-title"><%= __('step-bones') %></p>
+
+            <form action="/reserveStep2" method="GET">
+                <div class="row mb-3 tbx-access">
+                    <div class="col">
+                        <div>
+                            <select class="form-select" id="adultos" name="adultos" required>
+                                <option value="" disabled selected><%= __('adults') %></option>
+                                <option value="1">1 <%= __('adult') %></option>
+                                <option value="2">2 <%= __('adults') %></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3 tbx-access">
+                    <div class="col">
+                        <div>
+                            <select class="form-select" id="ninos" name="ninos" required>
+                                <option value="" disabled selected><%= __('childs') %> <%= __('child-range') %></option>
+                                <option value="0">0 <%= __('childs') %></option>
+                                <option value="1">1 <%= __('child') %></option>
+                                <option value="2">2 <%= __('childs') %></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary w-75 btn-login">
+                        <%= __('next') %>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

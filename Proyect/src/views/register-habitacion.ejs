@@ -1,0 +1,37 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">REGISTRAR HABITACIÓN</span>
+
+    <form action="/staff-crud-habitacion" method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="idTipoHbt" class="text-info-subtitle">Tipo de Habitación:</label>
+          <select id="idTipoHbt" name="idTipoHbt" class="form-control" required>
+            <% tiposHabitacion.forEach(tipo => { %>
+              <option value="<%= tipo.idTipoHbt %>"><%= tipo.nombre %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="numero" class="text-info-subtitle">Número:</label>
+          <input id="numero" type="text" name="numero" class="form-control" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="estado" class="text-info-subtitle">Estado:</label>
+          <select id="estado" name="estado" class="form-control" required>
+            <option value="disponible">Disponible</option>
+            <option value="ocupado">Ocupado</option>
+            <option value="mantenimiento">Mantenimiento</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2 mt-2">
+        <button type="submit" class="btn btn-custom">Registrar</button>
+        <a href="/staff-crud-habitacion" class="btn btn-custom">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,282 @@
+{
+  "intents": [
+    {
+      "tag": "saludo",
+      "patterns": [
+        "Hola",
+        "Hola ChaskyBot",
+        "Buenos días",
+        "Buenos dias",
+        "Buenas tardes",
+        "Buenas noches",
+        "Que tal",
+        "Qué tal",
+        "Buenas",
+        "Hey",
+        "Holaaa",
+        "Saludos",
+        "Cómo estás",
+        "Como estas",
+        "Hay alguien ahí",
+        "ChaskyBot estás ahí",
+        "Hay alguien ahi",
+        "ChaskyBot estás ahi",
+        "Hola, quiero hablar"
+      ],
+      "responses": [
+        "¡Sumaqllachu! Soy ChaskyBot, mensajero del Imperio Inca 🌄 ¿En qué puedo ayudarte con tu descanso en nuestras tierras?",
+        "¡Napaykuyki! Bienvenido a la posada del sol ☀️",
+        "¡Saludos, viajero! Que tus pasos sean firmes como los del chasqui 🏃‍♂️",
+        "¡Hola! ChaskyBot está listo para servirte, como en los tiempos del Tawantinsuyo 🦙",
+        "¡Imaynalla! Aquí estoy para ayudarte en tu travesía andina 🌄"
+      ]
+    },
+
+    {
+      "tag": "reserva",
+      "patterns": [
+        "Quiero reservar",
+        "Reservar habitación",
+        "Deseo reservar",
+        "Hacer una reserva",
+        "Quisiera una habitación",
+        "Cómo puedo reservar",
+        "Quiero hacer una reserva",
+        "Necesito una habitación",
+        "Reservar",
+        "Reserva",
+        "Me ayudas a reservar",
+        "Cómo hago una reserva",
+        "ChaskyBot, quiero reservar"
+      ],
+      "responses": [
+        "¡Tu deseo será cumplido, viajero! 🌿 Haz tu reserva aquí, como si fuera un mensaje llevado por mis pies ligeros:",
+        "¡Por el Inti! Ya preparo tu reserva como un mensaje en el Qhapaq Ñan 🏞️",
+        "¡Vamos a prepararte un descanso digno del Sapa Inca! 🛏️ Haz tu reserva aquí:",
+        "🏕️ Ya escuché tu llamado, noble visitante. Aquí puedes hacer tu reserva:",
+        "¡Todo listo para tu descanso en nuestra posada imperial! Sigue este camino para reservar:"
+      ]
+    },
+
+    {
+      "tag": "habitacion",
+      "patterns": [
+        "¿Qué tipos de habitación tienen?",
+        "Tipos de habitaciones",
+        "Habitaciones disponibles",
+        "¿Qué habitaciones hay?",
+        "¿Cuáles son sus habitaciones?",
+        "Dime las habitaciones que ofrecen",
+        "Qué opciones de habitación tienen",
+        "Qué tipos de cuarto tienen",
+        "Disponibilidad de habitaciones",
+        "¿Qué tipos de habitación ofrecen?",
+        "Opciones de habitación",
+        "Cuentame sobre las habitaciones",
+        "Cuentame de las habitaciones",
+        "Dime las habitaciones"
+      ],
+      "responses": [
+        "En nuestra posada imperial tenemos tres tipos de habitaciones: la simple como el camino del Qhapaq Ñan, la doble para viajeros que no caminan solos, y la suite presidencial digna del Sapa Inca 🛌✨",
+        "Ofrecemos habitaciones simples, dobles y la suite presidencial. Cada una lista para recibir a viajeros de todos los rincones del Tawantinsuyo 🌄",
+        "Desde la habitación simple hasta la suite del Sapa Inca, tenemos el descanso que tu espíritu viajero merece 🛏️🌞",
+        "¡Ah, noble visitante! Puedes elegir entre la habitación simple, la doble o la suite real. Que tu elección sea tan sabia como los amautas 🦙✨",
+        "Tenemos la habitación simple para el viajero solitario, la doble para acompañantes fieles, y la suite para quien merece lo más alto del Imperio Inca 🏯"
+      ]
+    },
+
+    {
+      "tag": "gracias",
+      "patterns": [
+        "Gracias",
+        "Muchas gracias",
+        "Te agradezco",
+        "Perfecto",
+        "Muy amable",
+        "Gracias por tu ayuda",
+        "Gracias ChaskyBot",
+        "Mil gracias",
+        "Excelente",
+        "Qué amable",
+        "Agradecido",
+        "Gracias por la info"
+      ],
+      "responses": [
+        "¡Ari! El honor es mío, noble visitante. Que los Apus guíen tu jornada 🏔️",
+        "Con gusto, caminante del Imperio. ¡Que el sol ilumine tu camino 🌞!",
+        "Siempre presto para servirte, como buen chasqui 🚶‍♂️💨",
+        "¡Napaykuyki! Espero haber sido útil como un quipu bien atado 🎗️",
+        "¡Imaynalla kachkanki! Gracias a ti por confiar en este humilde mensajero inca 🌿"
+      ]
+    },
+
+    {
+      "tag": "despedida",
+      "patterns": [
+        "Adiós",
+        "Nos vemos",
+        "Hasta luego",
+        "Chao",
+        "Me voy",
+        "Hasta pronto",
+        "Hasta la próxima",
+        "Que estés bien",
+        "Ya me voy",
+        "Nos vemos luego",
+        "Hasta mañana",
+        "Me retiro"
+      ],
+      "responses": [
+        "¡Sumaq tinkuy! Que el sol te ilumine y el viento te sea leve 🌞🌬️",
+        "¡Tinkunanchiskama! Hasta nuestro próximo encuentro, viajero del Andes 🏔️",
+        "¡Que los Apus te acompañen en cada paso! 🌄",
+        "¡Hasta luego! Siempre serás bienvenido en estas tierras del Inti",
+        "¡Buen viaje, hijo del sol! El camino siempre estará abierto para ti 🌞"
+      ]
+    },
+
+    {
+      "tag": "ordenar_comida",
+      "patterns": [
+        "Quiero ordenar comida",
+        "Quiero pedir algo de comer",
+        "Deseo ordenar comida",
+        "Tienen servicio de comida",
+        "Cómo pido comida",
+        "Ordenar comida",
+        "Pedir algo para comer",
+        "Quiero almorzar",
+        "Quiero cenar",
+        "Quiero comer",
+        "Puedo pedir comida",
+        "Me das algo de comer",
+        "ChaskyBot, tengo hambre",
+        "Tengo hambre"
+      ],
+      "responses": [
+        "🍽️ ¡Tus deseos serán atendidos, noble viajero! Aquí puedes ordenar tus manjares como en el banquete del Sapa Inca:",
+        "🌽 En nuestra cocina ancestral hay sabores que complacen a los dioses. Elige lo que deseas ordenar:",
+        "🥘 ¡El hambre no es digna del hijo del sol! Pide tu platillo y lo traeré más rápido que un chasqui por el Qhapaq Ñan.",
+        "Desde maíz dorado hasta guisos sagrados, puedes ordenar aquí lo que desees saborear.",
+        "🍲 ¡Ari! Si el estómago ruge, ChaskyBot responde. Aquí puedes pedir tu alimento incaico."
+      ]
+    },
+
+    {
+      "tag": "actividad",
+      "patterns": [
+        "¿Qué actividades hay?",
+        "Actividades disponibles",
+        "Quiero hacer algo",
+        "Dime qué puedo hacer",
+        "Qué actividades ofrecen",
+        "Quiero una actividad",
+        "Tienen actividades recreativas",
+        "Qué puedo hacer en el hotel",
+        "Actividades para hoy",
+        "Diversión en el hotel",
+        "Hay algo divertido para hacer",
+        "Qué opciones de actividades hay",
+        "Estoy aburrido",
+        "Actividades",
+        "Actividad"
+      ],
+      "responses": [
+        "🎒 Tenemos caminatas por antiguos caminos incas, talleres de cerámica y danzas tradicionales. ¡Tu espíritu aventurero será bienvenido!",
+        "🌄 Desde rituales ancestrales al amanecer hasta rutas entre los Apus, las actividades te conectarán con la esencia del Tawantinsuyo.",
+        "🦙 ¡Claro que sí! Puedes unirte a nuestras excursiones, clases culturales o recorridos guiados por sabios locales.",
+        "🔥 Las actividades de hoy incluyen danzas del Inti Raymi, fogatas rituales y recorridos a la laguna sagrada.",
+        "📜 Pregunta por nuestras actividades y recibirás una lista digna del códice del Inca. ¡Elige y disfruta!"
+      ]
+    },
+
+    {
+      "tag": "historia",
+      "patterns": [
+        "Cuentame una historia",
+        "Dime una leyenda",
+        "Quiero escuchar algo",
+        "Tienes alguna historia",
+        "ChaskyBot cuentame algo",
+        "Relatame una historia",
+        "Una historia por favor",
+        "Quiero una historia de amor",
+        "Tienes una historia de terror",
+        "Quiero escuchar algo dramatico",
+        "Dime una historia romantica",
+        "Dame una historia ancestral",
+        "Cuentame otra"
+      ],
+      "responses": [
+        "💘 *Historia romantica:* Illary, hija del sumo sacerdote del sol, y Killa, un humilde tejedor, se amaban en secreto bajo la luna. Cuando fueron descubiertos, el Inca ordeno separarlos. Ella fue enviada a un templo, y el exiliado a las montanas. Cada luna llena, ambos dejaban ofrendas en lo alto de dos cerros opuestos. Dicen que cuando hay eclipse, sus almas se reencuentran por un instante en el cielo.",
+        
+        "💀 *Historia de terror:* En un ayllu olvidado, vivia una anciana que hablaba con las sombras. Una noche, desaparecieron tres jovenes, y solo se hallaron sus sandalias ordenadas frente a su choza. Desde entonces, los viajeros evitan pasar por ahi al anochecer. Dicen que si la visitas y no llevas una ofrenda de coca o chicha, escuchas una voz que te llama por tu nombre… y no vuelves.",
+        
+        "🎭 *Historia dramatica:* Tupaq era un joven valiente que rechazo un matrimonio politico con la hija de un curaca para poder casarse con su amor de infancia, Mayu. El Inca, furioso, lo desterro a las cumbres nevadas. Alli, entre la soledad y la nieve, Tupaq esculpio en piedra el rostro de Mayu. Esa roca sigue alli, mirando al valle. Se dice que cuando alguien llora por amor junto a ella, el viento consuela su alma.",
+        
+        "🌄 *Historia ancestral:* En tiempos antiguos, los primeros hombres nacieron de las lagrimas de la Pachamama. Pero un dia, uno de ellos olvido dar gracias a la tierra y solo tomaba sin devolver. Entonces, los cerros se cerraron y los rios se secaron. Fue su hija, Sumaq Ñusta, quien ofrecio su vida al lago sagrado para restaurar el equilibrio. Desde entonces, los Incas honraban la tierra antes de cada siembra.",
+        
+        "👻 *Historia sobrenatural:* Ukhu Pacha, el espiritu de lo profundo, vaga por las minas abandonadas. Dicen que aparece como un nino descalzo pidiendo ayuda. Si lo ignoras, desaparece. Si lo sigues, te lleva a los tuneles antiguos, donde escuchas voces, risas de ultratumba y los ecos de los chasquis caidos. Solo quienes llevan una piedra del Apurimac en el bolsillo logran salir con vida."
+      ]
+    },
+
+    {
+      "tag": "servicio",
+      "patterns": [
+        "Que servicios ofrecen",
+        "Tienen servicios disponibles",
+        "Que servicios hay",
+        "Ofrecen algun servicio",
+        "Que incluye el hotel",
+        "Cuales son los servicios",
+        "Servicios del hotel",
+        "Hay servicios adicionales",
+        "Me puedes decir que servicios tienen",
+        "Ofrecen servicio de spa",
+        "El hotel tiene lavanderia",
+        "Tienen restaurante o algo para comer",
+        "Servicio",
+        "Servicios",
+        "Servicios disponibles",
+        "Que servicios tienen",
+        "Que servicios ofrecen",
+        "Que servicios hay disponibles",
+        "Que servicios tienen en el hotel",
+        "Que servicios ofrecen en el hotel"
+      ],
+      "responses": [
+        "🌞 Nuestro refugio incaico ofrece servicios dignos del Sapa Inca: spa con hierbas sagradas, temazcal ancestral, masajes con piedras del Apurimac, y rituales de purificacion.",
+        "Contamos con restaurante con cocina andina, lavanderia, servicio de habitacion, guia turistico y ofrendas ceremoniales si asi lo deseas.",
+        "🌿 Aqui podras disfrutar de wifi solar (cuando Inti lo permite), desayuno sagrado, servicio de transporte en llamas (broma... usamos vans), y atencion personalizada con sabiduria ancestral.",
+        "🧘 Si buscas descanso espiritual o corporal, tenemos sesiones de relajacion con hojas de coca, baños florales y caminatas guiadas por sabios de la montaña.",
+        "🍲 Y por supuesto, no falta el chiriuchu ni la chicha morada. Pregunta por nuestros servicios y deja que ChaskyBot te guie con alegria y respeto."
+      ]
+    },
+    {
+      "tag": "motivacion",
+      "patterns": [
+        "Me siento mal",
+        "Estoy triste",
+        "Estoy desanimado",
+        "Necesito animos",
+        "Estoy cansado",
+        "No tengo ganas de nada",
+        "Estoy deprimido",
+        "Estoy bajoneado",
+        "Siento que no puedo",
+        "Quiero rendirme",
+        "Estoy sin energia",
+        "Todo me sale mal"
+      ],
+      "responses": [
+        "🌄 Incluso el sol descansa antes de volver a brillar. Respira, viajero. Los Apus cuidan de ti, aunque no los veas.",
+        "🍃 Cada paso, por pequeño que sea, te acerca a la cima. Hoy puedes descansar, pero no olvides que naciste fuerte.",
+        "🌞 En el Imperio Inca, hasta el mas sabio necesitaba tiempo para sanar. No estas solo, ChaskyBot camina contigo.",
+        "🔥 En tu corazon hay fuego ancestral. Aunque sientas frio ahora, ese fuego volvera a arder.",
+        "🌻 No todos los dias brillan, pero todos los dias cuentan. Hoy, regala amor a ti mismo. Eso tambien es avanzar."
+      ]
+    }
+
+
+  ]
+}

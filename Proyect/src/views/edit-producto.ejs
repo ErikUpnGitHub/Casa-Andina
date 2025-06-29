@@ -1,0 +1,50 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">EDITAR PRODUCTO</span>
+
+    <form action="/staff-crud-producto/editar/<%= producto.idProducto %>" method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Nombre:</label>
+          <input type="text" name="nombre" class="form-control" value="<%= producto.nombre %>" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Precio:</label>
+          <input type="number" step="0.01" name="precio" class="form-control" value="<%= producto.precio %>" required>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label class="text-info-subtitle">Descripción:</label>
+          <textarea name="descripcion" class="form-control" rows="4" required><%= producto.descripcion %></textarea>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Categoría:</label>
+          <select name="idCtgComida" class="form-control" required>
+            <% categorias.forEach(ctg => { %>
+              <option value="<%= ctg.idCtgComida %>" <%= ctg.idCtgComida === producto.idCtgComida ? 'selected' : '' %>>
+                <%= ctg.descripcion %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label class="text-info-subtitle">Imagen actual:</label><br>
+          <img src="/img/food/<%= producto.idProducto %>.png" alt="Imagen del producto" style="width: 150px; border-radius: 8px; border: 1px solid #ccc;" onerror="this.style.display='none'">
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label class="text-info-subtitle">Subir nueva imagen (.png):</label>
+          <input type="file" name="imagen" accept="image/png" class="form-control">
+        </div>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-custom">Guardar cambios</button>
+        <a href="/staff-crud-producto" class="btn btn-custom">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>

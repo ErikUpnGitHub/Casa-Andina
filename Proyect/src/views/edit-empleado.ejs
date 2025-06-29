@@ -1,0 +1,47 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">Editar Empleado</span>
+
+    <% if (empleado.idEmpleado === 1) { %>
+      <div class="alert alert-danger">Este empleado está protegido y no puede ser editado.</div>
+      <a href="/staff-crud-empleado" class="btn btn-custom mt-3">Volver</a>
+    <% } else { %>
+      <form action="/staff-crud-empleado/editar/<%= empleado.idEmpleado %>" method="POST">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="text-info-subtitle">Nombre:</label>
+            <input type="text" name="nombre" class="form-control" value="<%= empleado.nombre %>" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="text-info-subtitle">Apellido:</label>
+            <input type="text" name="apellido" class="form-control" value="<%= empleado.apellido %>" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="text-info-subtitle">DNI:</label>
+            <input type="text" name="dni" maxlength="8" class="form-control" value="<%= empleado.dni %>" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="text-info-subtitle">Correo:</label>
+            <input type="email" name="email" class="form-control" value="<%= empleado.email %>">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="text-info-subtitle">Teléfono:</label>
+            <input type="text" name="telefono" class="form-control" value="<%= empleado.telefono %>">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="text-info-subtitle">Función:</label>
+            <select name="idFuncion" class="form-control" required>
+              <% funciones.forEach(funcion => { %>
+                <option value="<%= funcion.idFuncion %>" <%= funcion.idFuncion === empleado.idFuncion ? 'selected' : '' %>>
+                  <%= funcion.detalle %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-custom mt-3">Guardar cambios</button>
+        <a href="/staff-crud-empleado" class="btn btn-secondary mt-3">Cancelar</a>
+      </form>
+    <% } %>
+  </div>
+</div>

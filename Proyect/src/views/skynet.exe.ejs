@@ -1,0 +1,16 @@
+<link rel="stylesheet" href="/src/public/css/chatbot.css">
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- Chatbot flotante -->
+<div id="chatIconContainer" onclick="toggleChatbox()">
+  <i class="fas fa-comment-dots"></i>
+</div>
+
+<div id="chatbox">
+  <h4>🤖 Hotel Chatbot</h4>
+  <div id="messages"></div>
+  <input type="text" id="userInput" placeholder="Escribe un mensaje..." />
+  <button onclick="sendMessage()">Enviar</button>
+</div>
+
+<script src="/js/chatbot.js"></script>

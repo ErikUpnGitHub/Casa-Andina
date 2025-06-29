@@ -1,0 +1,105 @@
+<nav class="sidebar">
+
+    <header>
+        <div class="image-nav">
+            <span class="image">
+                <img src="/img/logo.png" alt="logo">
+            </span>
+        </div>
+
+        <i class="bx bx-chevron-right toggle"></i>
+        
+    </header>
+
+    <div class="menu-bar">
+
+        <div class="menu">
+            <ul class="menu-links">
+
+                <li class="nav-link">
+                    <a href="/home" data-link>
+                        <i class='bx bx-home icon'></i>
+                        <span class="text nav-text">
+                            <%= __('sb-home') %>
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-link">
+                    <a href="/order-food">
+                        <i class="bx bx-dish icon"></i>
+                        <span class="text nav-text">
+                            <%= __('sb-order-food') %>
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-link">
+                    <a href="/activity" data-link>
+                        <i class='bx bx-archive icon'></i>
+                        <span class="text nav-text">
+                            <%= __('sb-activity') %>
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-link">
+                    <a href="/services">
+                        <i class='bx bx-info-circle icon'></i>
+                        <span class="text nav-text">
+                            <%= __('sb-services') %>
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-link">
+                    <a href="/request">
+                        <i class='bx bx-history icon'></i>
+                        <span class="text nav-text">
+                            <%= __('sb-my-requests') %>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="botton-content">
+
+            <li class="nav-link">
+                <form action="/change-language" method="POST" style="display: flex; align-items: center; width: 100%;">
+                    <i class='bx bx-globe icon'></i>
+                    <select name="locale" onchange="this.form.submit()"
+                        style="background: transparent; border: none; color: inherit; font-size: 18px; padding-left: 8px;"
+                        class="text nav-text">
+                        <option value="es" <%=locale==='es' ? 'selected' : '' %>>Español</option>
+                        <option value="en" <%=locale==='en' ? 'selected' : '' %>>English</option>
+                    </select>
+                </form>
+            </li>
+
+            <li class="">
+                <a href="/login">
+                    <i class='bx bx-log-out icon'></i>
+                    <span class="text nav-text">
+                        <%= __('sb-log-out') %>
+                    </span>
+                </a>
+            </li>
+
+            <li class="mode">
+                <div class="moon-sun">
+                    <i class='bx bx-moon icon moon'></i>
+                    <i class='bx bx-sun icon sun'></i>
+                </div>
+                <span class="mode-text text">
+                    <%= __('sb-mode-light') %>
+                </span>
+                <div class="toggle-switch">
+                    <span class="switch"></span>
+                </div>
+            </li>
+
+
+        </div>
+    </div>
+</nav>

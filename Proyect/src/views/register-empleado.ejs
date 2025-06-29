@@ -1,0 +1,47 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">Registrar Nuevo Empleado</span>
+
+    <form action="/staff-crud-empleado" method="POST">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Nombre:</label>
+          <input type="text" name="nombre" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Apellido:</label>
+          <input type="text" name="apellido" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">DNI:</label>
+          <input type="text" name="dni" maxlength="8" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Teléfono:</label>
+          <input type="text" name="telefono" class="form-control">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Correo:</label>
+          <input type="email" name="email" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Función:</label>
+          <select name="idFuncion" class="form-control" required>
+            <% funciones.forEach(funcion => { %>
+              <option value="<%= funcion.idFuncion %>"><%= funcion.detalle %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Contraseña:</label>
+          <input type="password" name="contrasenia" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button type="submit" class="btn btn-custom">Registrar</button>
+        <a href="/staff-crud-empleado" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>

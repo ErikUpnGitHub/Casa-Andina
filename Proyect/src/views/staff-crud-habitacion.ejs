@@ -1,0 +1,50 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-3">GESTIÓN DE HABITACIONES</span>
+
+    <a href="/staff-crud-habitacion/registrar" class="btn btn-custom mb-3">Registrar nueva habitación</a>
+
+    <input type="text" id="searchInput" class="form-control mb-3" placeholder="🔍 Buscar por tipo o número...">
+
+    <div class="table-responsive mt-3">
+      <table class="table align-middle mb-0 transparent-table">
+        <thead>
+          <tr>
+            <th class="text-info-subtitle">ID</th>
+            <th class="text-info-subtitle">Tipo</th>
+            <th class="text-info-subtitle">Número</th>
+            <th class="text-info-subtitle">Estado</th>
+            <th class="text-info-subtitle">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% habitaciones.forEach(habitacion => { %>
+            <tr class="text-info-subtitle <%= habitacion.estado !== 'activo' ? 'table-secondary' : '' %>">
+              <td><%= habitacion.idHabitacion %></td>
+              <td><%= habitacion.tipoNombre %></td>
+              <td><%= habitacion.numero %></td>
+              <td><%= habitacion.estado %></td>
+              <td>
+                <a href="/staff-crud-habitacion/editar/<%= habitacion.idHabitacion %>" class="btn btn-custom btn-sm">Editar</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const searchTerm = this.value.toLowerCase();
+    const rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+      const tipo = row.children[1]?.innerText.toLowerCase() || "";
+      const numero = row.children[2]?.innerText.toLowerCase() || "";
+      const match = tipo.includes(searchTerm) || numero.includes(searchTerm);
+      row.style.display = match ? "" : "none";
+    });
+  });
+</script>

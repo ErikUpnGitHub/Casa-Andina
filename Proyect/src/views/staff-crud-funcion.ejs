@@ -1,0 +1,53 @@
+<div class="content-wrapper py-4">
+    <div class="container-fluid">
+
+        <span class="text text-info-title d-block mb-4">FUNCIONES</span>
+
+        <!-- Formulario para agregar nueva función -->
+        <div class="card p-4 mb-4 rounded-4" style="background-color: var(--background-color); border: none;">
+            <form action="/staff-crud-funcion" method="POST">
+                <div class="mb-3">
+                    <label for="detalle" class="text-info-subtitle">Nueva función:</label>
+                    <input type="text" name="detalle" id="detalle" class="form-control"
+                        placeholder="Ej. Recepcionista, Gerente, etc." required />
+                </div>
+                <button type="submit" class="btn btn-custom">Registrar Funcion</button>
+            </form>
+        </div>
+
+        <!-- Tabla sin bordes y redondeada -->
+        <div class="table-responsive mt-4">
+            <table class="table align-middle mb-0 transparent-table">
+                <thead>
+                    <tr>
+                        <th class="text-info-subtitle">ID</th>
+                        <th class="text-info-subtitle">Detalle</th>
+                        <th class="text-info-subtitle">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% funciones.forEach(funcion=> { %>
+                        <tr class="<%= funcion.activo ? '' : 'table-secondary' %> text-info-subtitle">
+                            <td><%= funcion.idFuncion %></td>
+                            <td><%= funcion.detalle %></td>
+                            <td>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="/staff-crud-funcion/editar/<%= funcion.idFuncion %>"
+                                        class="btn btn-custom">Editar</a>
+                                    <form action="/staff-crud-funcion/eliminar/<%= funcion.idFuncion %>" method="POST"
+                                        data-confirm="<%= funcion.activo ? '¿Estás seguro de desactivar esta función?' : '¿Estás seguro de activar esta función?' %>"
+                                        onsubmit="return confirm(this.getAttribute('data-confirm'))">
+                                        <button type="submit" class="btn btn-custom">
+                                            <%= funcion.activo ? 'Desactivar' : 'Activar' %>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

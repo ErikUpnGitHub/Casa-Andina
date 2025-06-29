@@ -1,0 +1,68 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">EMPLEADOS</span>
+
+    <a href="/staff-crud-empleado/registrar" class="btn btn-custom mb-3">Registrar nuevo empleado</a>
+
+    <input type="text" id="searchInput" class="form-control mb-3" placeholder="🔍 Buscar empleado...">
+
+    <!-- Tabla de empleados -->
+    <div class="table-responsive">
+      <table class="table align-middle mb-0 transparent-table">
+        <thead>
+          <tr>
+            <th class="text-info-subtitle">ID</th>
+            <th class="text-info-subtitle">Nombre</th>
+            <th class="text-info-subtitle">DNI</th>
+            <th class="text-info-subtitle">Email</th>
+            <th class="text-info-subtitle">Teléfono</th>
+            <th class="text-info-subtitle">Función</th>
+            <th class="text-info-subtitle">Estado</th>
+            <th class="text-info-subtitle">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% empleados.forEach(emp => { %>
+            <tr class="<%= emp.estado === 'activo' ? '' : 'table-secondary' %> text-info-subtitle">
+              <td><%= emp.idEmpleado %></td>
+              <td><%= emp.nombre %> <%= emp.apellido %></td>
+              <td><%= emp.dni %></td>
+              <td><%= emp.email %></td>
+              <td><%= emp.telefono %></td>
+              <td><%= emp.funcion %></td>
+              <td><%= emp.estado %></td>
+              <td>
+                <% if (emp.idEmpleado !== 1) { %>
+                  <div class="d-flex gap-2 flex-wrap">
+                    <a href="/staff-crud-empleado/editar/<%= emp.idEmpleado %>" class="btn btn-custom">Editar</a>
+                    <form action="/staff-crud-empleado/cambiar-estado/<%= emp.idEmpleado %>" method="POST"
+                      onsubmit="return confirm('¿Seguro que deseas cambiar el estado de este empleado?')">
+                      <input type="hidden" name="estadoActual" value="<%= emp.estado %>">
+                      <button type="submit" class="btn btn-custom">
+                        <%= emp.estado === 'activo' ? 'Suspender' : 'Activar' %>
+                      </button>
+                    </form>
+                  </div>
+                <% } else { %>
+                  <span class="text-muted">Protegido</span>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const searchTerm = this.value.toLowerCase();
+    const rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(searchTerm) ? "" : "none";
+    });
+  });
+</script>

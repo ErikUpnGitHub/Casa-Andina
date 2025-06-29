@@ -1,0 +1,96 @@
+
+<div class="content-wrapper">
+    <span class="text tile-text">
+        <%= __('acs-login') %>
+    </span>
+
+    <img src="/img/logo.png" alt="Logo" class="img-fluid d-block mx-auto mb-4" style="max-width: 300px;" />
+
+    <form action="/login" method="POST">
+
+        <div class="form-floating tbx-access">
+            <input type="text" class="form-control" id="email" name="email" placeholder="email@example.com" required />
+            <label for="email">
+                <%= __('acs-email') %>
+            </label>
+        </div>
+
+        <div class="form-floating mb-3 tbx-access">
+            <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required />
+            <label for="password">
+                <%= __('acs-password') %>
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-75 btn-login">
+            <%= __('acs-login') %>
+        </button>
+
+    </form>
+
+    <p class="text-center mt-3 text-muted">
+        <%= __('acs-question-2') %>
+            <a class="text-link" href="/register">
+                <%= __('acs-regisiu') %>
+            </a>
+    </p>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title">Error</h5>
+      </div>
+      <div class="modal-body">
+        <%= error %>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title">Éxito</h5>
+      </div>
+      <div class="modal-body">
+        <%= success %>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if (typeof success !== 'undefined' && success) { %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+      successModal.show();
+    });
+  </script>
+<% } %>
+
+<% if (typeof success !== 'undefined' && success) { %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+      successModal.show();
+    });
+  </script>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+      errorModal.show();
+    });
+  </script>
+<% } %>

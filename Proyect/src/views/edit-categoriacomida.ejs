@@ -1,0 +1,26 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">Editar Categoría de Comida</span>
+
+    <div class="card p-4 rounded-4" style="background-color: var(--background-color); border: none;">
+      <form action="/staff-crud-categoriacomida/editar/<%= categoriaComida.idCtgComida %>" method="POST">
+        <div class="mb-3">
+          <label for="descripcion" class="text-info-subtitle">Descripción:</label>
+          <input
+            type="text"
+            name="descripcion"
+            id="descripcion"
+            class="form-control"
+            value="<%= categoriaComida.descripcion %>"
+            required
+          />
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-custom">Guardar Cambios</button>
+          <a href="/staff-crud-categoriacomida" class="btn btn-custom">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

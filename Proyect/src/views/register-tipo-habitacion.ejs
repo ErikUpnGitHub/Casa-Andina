@@ -1,0 +1,52 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">REGISTRAR TIPO DE HABITACIÓN</span>
+
+    <form action="/staff-crud-tipo-habitacion" method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Nombre:</label>
+          <input type="text" name="nombre" class="form-control" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Tamaño (ej. 25m2):</label>
+          <input type="text" name="tamano" class="form-control" maxlength="10" required>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label class="text-info-subtitle">Descripción:</label>
+          <textarea name="descripcion" class="form-control" rows="5" required></textarea>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Cama:</label>
+          <input type="text" name="cama" class="form-control" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Adultos:</label>
+          <input type="number" name="adultos" class="form-control" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Niños:</label>
+          <input type="number" name="ninos" class="form-control" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Precio:</label>
+          <input type="number" name="precio" class="form-control" required>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label class="text-info-subtitle">Imagen:</label>
+          <input type="file" name="imagen" class="form-control" accept="image/*" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-custom mt-2">Registrar</button>
+      <a href="/staff-crud-tipo-habitacion" class="btn btn-custom mt-2">Cancelar</a>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">TIPOS DE HABITACIÓN</span>
+
+    <a href="/staff-crud-tipo-habitacion/registrar" class="btn btn-custom mb-3">REGISTRAR  nuevo tipo</a>
+
+    <div class="table-responsive mt-3">
+      <table class="table align-middle mb-0 transparent-table">
+        <thead>
+          <tr>
+            <th class="text-info-subtitle">Nombre</th>
+            <th class="text-info-subtitle">Tamaño</th>
+            <th class="text-info-subtitle">Cama</th>
+            <th class="text-info-subtitle">Adultos</th>
+            <th class="text-info-subtitle">Niños</th>
+            <th class="text-info-subtitle">Precio</th>
+            <th class="text-info-subtitle">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% tiposHabitacion.forEach(t => { %>
+            <tr class="text-info-subtitle">
+              <td><%= t.nombre %></td>
+              <td><%= t.tamano %></td>
+              <td><%= t.cama %></td>
+              <td><%= t.adultos %></td>
+              <td><%= t.ninos %></td>
+              <td>S/ <%= Number(t.precio).toFixed(2) %></td>
+              <td>
+                <a href="/staff-crud-tipo-habitacion/editar/<%= t.idTipoHbt %>" class="btn btn-custom btn-sm">Editar</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

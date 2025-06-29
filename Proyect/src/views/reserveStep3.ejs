@@ -1,0 +1,143 @@
+<div class="stepper-wrapper">
+    <div class="stepper-item completed">
+        <div class="step-counter">1</div>
+        <div class="step-name">Huespedes</div>
+    </div>
+    <div class="stepper-item completed">
+        <div class="step-counter">2</div>
+        <div class="step-name">Habitacion y Tarifa</div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter process">3</div>
+        <div class="step-name">Estadia</div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">4</div>
+        <div class="step-name">Monto Total</div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">5</div>
+        <div class="step-name">Finalizado</div>
+    </div>
+</div>
+
+<div id="checkin-data" data-checkin='<%= JSON.stringify(checkinDisponible.map(d => d.fecha)) %>'></div>
+<div id="checkout-data" data-checkout='<%= JSON.stringify(checkoutDisponible.map(d => d.checkout)) %>'></div>
+
+<div class="content-wrapper">
+    <div class="step-content box">
+        <p class="text-info-title">ESTADIA</p>
+        <div class="d-flex gap-4">
+            <div class="d-flex flex-column">
+                <label for="datepickerin" class="text-info-subtitle">Fecha de entrada</label>
+                <input type="date" id="datepickerin" class="form-control" placeholder="Elige una fecha" />
+            </div>
+            <div class="d-flex flex-column">
+                <label for="datepickerout" class="text-info-subtitle">Fecha de salida</label>
+                <input type="date" id="datepickerout" class="form-control" placeholder="Elige una fecha" />
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button id="btn-validar-fechas" class="btn btn-primary w-100 btn-login">
+                Elegir
+            </button>
+        </div>
+
+        <form id="form-fechas" action="/reserveStep4" method="GET" style="display: none;">
+            <input type="hidden" name="fechaEntrada" id="inputFechaEntrada">
+            <input type="hidden" name="fechaSalida" id="inputFechaSalida">
+            <input type="hidden" name="idTipoHbt" value="<%= idTipoHbt %>">
+            <input type="hidden" name="adultos" value="<%= adultos %>">
+            <input type="hidden" name="ninos" value="<%= ninos %>">
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+
+<script>
+    const checkinDiasRaw = JSON.parse(document.getElementById('checkin-data').dataset.checkin);
+    const checkoutDiasRaw = JSON.parse(document.getElementById('checkout-data').dataset.checkout);
+
+    const checkinDias = checkinDiasRaw.map(fechaStr => fechaStr.split('T')[0]);
+    const checkoutDias = checkoutDiasRaw.map(fechaStr => fechaStr.split('T')[0]);
+
+    new Litepicker({
+        element: datepickerin,
+        singleMode: true,
+        format: 'YYYY-MM-DD',
+        lang: 'es',
+        minDate: new Date().toISOString().split('T')[0],
+        lockDays: checkinDias
+    });
+
+    new Litepicker({
+        element: datepickerout,
+        singleMode: true,
+        format: 'YYYY-MM-DD',
+        lang: 'es',
+        minDate: new Date().toISOString().split('T')[0],
+        lockDays: checkoutDias
+    });
+
+    document.getElementById('btn-validar-fechas').addEventListener('click', () => {
+        const fechaEntrada = document.getElementById('datepickerin').value;
+        const fechaSalida = document.getElementById('datepickerout').value;
+
+        if (!fechaEntrada) {
+            alert('Por favor, selecciona una fecha de entrada.');
+            return;
+        }
+        if (!fechaSalida) {
+            alert('Por favor, selecciona una fecha de salida.');
+            return;
+        }
+
+        if (checkinDias.includes(fechaEntrada)) {
+            alert(`La fecha de entrada no está disponible.`);
+            return;
+        }
+
+        if (checkoutDias.includes(fechaSalida)) {
+            alert(`La fecha de salida  no está disponible.`);
+            return;
+        }
+
+        const entrada = new Date(fechaEntrada);
+        const salida = new Date(fechaSalida);
+
+        if (salida <= entrada) {
+            alert('La fecha de salida debe ser mayor a la fecha de entrada.');
+            return;
+        }
+
+        function getDatesBetween(startDate, endDate) {
+            const dates = [];
+            let currentDate = new Date(startDate);
+            currentDate.setDate(currentDate.getDate() + 1);
+
+            while (currentDate < endDate) {
+                dates.push(currentDate.toISOString().split('T')[0]);
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            return dates;
+        }
+
+        const fechasEnMedio = getDatesBetween(entrada, salida);
+
+        const fechasBloqueadasEnIntervalo = fechasEnMedio.filter(fecha =>
+            checkinDias.includes(fecha) || checkoutDias.includes(fecha)
+        );
+
+        if (fechasBloqueadasEnIntervalo.length > 0) {
+            alert(`El rango de fechas incluye días bloqueados`);
+            return;
+        }
+
+        document.getElementById('inputFechaEntrada').value = fechaEntrada;
+        document.getElementById('inputFechaSalida').value = fechaSalida;
+        document.getElementById('form-fechas').submit();
+    });
+
+</script>

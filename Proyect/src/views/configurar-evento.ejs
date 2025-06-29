@@ -1,0 +1,25 @@
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <h3 class="mb-4">Configurar Evento de Horario</h3>
+
+    <form method="POST" action="/staff-crud-actividad/evento/<%= idActividad %>">
+      <div class="form-group">
+        <label>Hora de inicio</label>
+        <input type="time" name="horaInicio" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Hora de fin</label>
+        <input type="time" name="horaFin" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Duración (minutos)</label>
+        <input type="number" name="duracion" class="form-control" required>
+      </div>
+
+      <button class="btn btn-primary mt-3">Guardar Evento</button>
+      <a href="/staff-crud-actividad" class="btn btn-secondary mt-3">Cancelar</a>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">ACTIVIDADES</span>
+
+    <a href="/staff-crud-actividad/registrar" class="btn btn-custom mb-3">Registrar Actividad</a>
+
+    <div class="table-responsive">
+      <table class="table align-middle mb-0 transparent-table">
+        <thead>
+          <tr>
+            <th class="text-info-subtitle">Detalle</th>
+            <th class="text-info-subtitle">Descripción</th>
+            <th class="text-info-subtitle">Duración</th>
+            <th class="text-info-subtitle">Precio</th>
+            <th class="text-info-subtitle">Estado</th>
+            <th class="text-info-subtitle">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% actividades.forEach(a => { %>
+            <tr class="<%= a.estado === 'disponible' ? '' : 'table-secondary' %> text-info-subtitle">
+              <td><%= a.detalle %></td>
+              <td><%= a.descripcion %></td>
+              <td><%= a.duracion %> min</td>
+              <td>S/ <%= Number(a.precio).toFixed(2) %></td>
+              <td><%= a.estado %></td>
+              <td>
+                <div class="d-flex gap-2 flex-wrap">
+                  <a href="/staff-crud-actividad/editar/<%= a.idActividad %>" class="btn btn-custom">Editar</a>
+
+                  <a href="/staff-crud-actividad/evento/<%= a.idActividad %>" class="btn btn-custom">Evento</a>
+
+                  <form action="/staff-crud-actividad/cambiar-estado/<%= a.idActividad %>" method="POST" onsubmit="return confirm('¿Estás seguro?')">
+                    <input type="hidden" name="estadoActual" value="<%= a.estado %>">
+                    <button type="submit" class="btn btn-custom">
+                      <%= a.estado === 'disponible' ? 'Suspender' : 'Activar' %>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

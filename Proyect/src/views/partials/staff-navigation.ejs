@@ -1,0 +1,144 @@
+<nav class="sidebar">
+
+    <header>
+        <div class="image-nav">
+            <span class="image">
+                <img src="/img/logo.png" alt="logo">
+            </span>
+        </div>
+
+        <!--<i class="bx bx-chevron-right toggle"></i>-->
+        
+    </header>
+
+    <div class="menu-bar">
+
+        <div class="menu">
+            <ul class="menu-links">
+
+                <% if (rolUsuario.id) { %>
+                    <li class="nav-link">
+                        <a href="/staff-home" data-link>
+                            <!--<i class='bx bx-home icon'></i>-->
+                            <span class="text nav-text"><%= __('sb-home') %></span>
+                        </a>
+                    </li>
+                <% } %>
+
+                <% if ([3, 4, 5, 6, 7].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-task" data-link>
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">Tareas Pendientes</span>
+                    </a>
+                </li>
+                <% } %>
+
+                <% if ([1, 8].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-crud-funcion" data-link>
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">Funciones</span>
+                    </a>
+                </li>
+                <% } %>
+
+                <% if ([1, 8].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-crud-categoriacomida" data-link>
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">Categorias Producto</span>
+                    </a>
+                </li>
+                <% } %>
+
+                <% if ([1, 8].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-crud-empleado" data-link>
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">Empleados</span>
+                    </a>
+                </li>
+                <% } %>
+
+                <% if ([1, 8].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-crud-tipo-habitacion" data-link>
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">TIPO DE HABITACIONES</span>
+                    </a>
+                </li>
+                <% } %>
+
+                <% if ([1, 8].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-crud-habitacion" data-link>
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">HABITACIONES</span>
+                    </a>
+                </li>
+                <% } %>
+
+                <% if ([1, 8].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-crud-producto" data-link>
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">PRODUCTOS</span>
+                    </a>
+                </li>
+                <% } %>
+
+                <% if ([1, 8].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-crud-actividad" data-link>
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">ACTIVIDADES</span>
+                    </a>
+                </li>
+                <% } %>
+
+                <% if ([1, 8].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-crud-categoriaservicio">
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">SERVICIOS</span>
+                    </a>
+                </li>
+                <% } %>
+
+                <% if ([1, 8].includes(rolUsuario.id)) { %>
+                    <li class="nav-link">
+                    <a href="/staff-dashboard">
+                        <!--<i class='bx bx-home icon'></i>-->
+                        <span class="text nav-text">DASHBOARD</span>
+                    </a>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+
+        <div class="botton-content">
+
+            
+            <li class="">
+                <a href="/login">
+                    <i class='bx bx-log-out icon'></i>
+                    <span class="text nav-text"><%= __('sb-log-out') %></span>
+                </a>
+            </li>
+            
+            <li class="mode">
+                <div class="moon-sun">
+                    <i class='bx bx-moon icon moon'></i>
+                    <i class='bx bx-sun icon sun'></i>
+                </div>
+                <span class="mode-text text"><%= __('sb-mode-light') %></span>
+                <div class="toggle-switch">
+                    <span class="switch"></span>
+                </div>
+            </li>
+
+            
+        </div>
+    </div>
+</nav>

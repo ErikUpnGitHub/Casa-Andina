@@ -1,0 +1,186 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+        <!-- Título -->
+        <span class="text tile-text d-block mb-3">
+            <%= __('sb-my-requests') %>
+        </span>
+
+        <!-- Selector de categoría -->
+        <div class="col-md-6 mb-4">
+            <label for="info-selector" class="form-label">Selecciona una categoría:</label>
+            <select id="info-selector" class="form-select">
+                <option value="reservas">Reservas</option>
+                <option value="servicios">Servicios</option>
+                <option value="inscripciones">Inscripciones</option>
+            </select>
+        </div>
+
+        <!-- Reservas -->
+        <div id="reservas" class="info-section mb-5">
+            <% if (reservas.length> 0) { %>
+                <div class="row">
+                    <% reservas.forEach(r=> { %>
+                        <div class="col-md-6 mb-3">
+                            <div class="box-content card">
+                                <div class="card-body">
+                                    <h6 class="card-title">Habitación <strong>
+                                            <%= r.numeroHabitacion %>
+                                        </strong> - <%= r.tipoHabitacion %>
+                                    </h6>
+                                    <p class="card-text mb-2">
+                                        <strong>Desde:</strong>
+                                        <%= new Date(r.fchInicio).toLocaleString('es-PE', { day:'2-digit',
+                                            month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit', hour12:
+                                            true }) %><br>
+                                            <strong>Hasta:</strong>
+                                            <%= new Date(r.fchFin).toLocaleString('es-PE', { day:'2-digit',
+                                                month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit',
+                                                hour12: true }) %>
+                                    </p>
+                                    <span class="badge rounded-pill bg-secondary px-3 py-2">Estado: <%= r.estadoReserva
+                                            %></span>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+                <% } else { %>
+                    <p class="text-muted">No tienes reservas registradas.</p>
+                    <% } %>
+        </div>
+
+        <!-- Servicios -->
+        <div id="servicios" class="info-section mb-5" style="display:none;">
+            <% if (servicios.length> 0) { %>
+                <div class="row">
+                    <% servicios.forEach(s=> {
+                        let productosAsociados = productosComida.filter(p => p.idServicio === s.idServicio);
+                        %>
+                        <div class="col-md-6 mb-3">
+                            <div class="box-content card">
+                                <div class="card-body">
+                                    <h6 class="card-title">Categoría: <%= s.categoriaServicio %>
+                                    </h6>
+                                    <p class="card-text mb-2">
+                                        <strong>Fecha:</strong>
+                                        <%= new Date(s.created_at).toLocaleString('es-PE', { day:'2-digit',
+                                            month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit', hour12:
+                                            true }) %>
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="badge rounded-pill bg-secondary px-3 py-2">
+                                                Estado: <%= s.estadoServicio %>
+                                            </span>
+
+                                            <% if (s.estadoServicio==='finalizado' ) { %>
+                                                <a href="/registrar-resenia/<%= s.idServicio %>"
+                                                    class="btn btn-custom" style="font-size: 0.8rem;">
+                                                    Dejar reseña
+                                                </a>
+                                                <% } %>
+                                        </div>
+
+                                        <% if (productosAsociados.length> 0) { %>
+                                            <small class="text-primary fst-italic" role="button"
+                                                style="cursor: pointer;" data-bs-toggle="modal"
+                                                data-bs-target="#modal-<%= s.idServicio %>">
+                                                Ver Pedido
+                                            </small>
+                                            <% } %>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <% if (productosAsociados.length> 0) { %>
+                            <div class="modal fade" id="modal-<%= s.idServicio %>" tabindex="-1"
+                                aria-labelledby="modalLabel-<%= s.idServicio %>" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header py-2 px-3">
+                                            <h6 class="modal-title" id="modalLabel-<%= s.idServicio %>">
+                                                Productos - Servicio <%= s.idServicio %>
+                                            </h6>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body px-3 py-2">
+                                            <ul class="list-group list-group-flush small">
+                                                <% productosAsociados.forEach(p=> { %>
+                                                    <li class="list-group-item px-2 py-1">
+                                                        <strong>
+                                                            <%= p.nombreProducto %>
+                                                        </strong><br>
+                                                        Cantidad: <%= p.cantidad %> | Unitario: S/ <%=
+                                                                Number(p.precio).toFixed(2) %><br>
+                                                                <strong>Total: S/ <%= Number(p.total).toFixed(2) %>
+                                                                </strong>
+                                                    </li>
+                                                    <% }) %>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-footer py-2">
+                                            <button type="button" class="btn btn-sm btn-secondary"
+                                                data-bs-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% }) %>
+                </div>
+                <% } else { %>
+                    <p class="text-muted">No tienes servicios recientes.</p>
+                    <% } %>
+        </div>
+
+
+        <!-- Inscripciones -->
+        <div id="inscripciones" class="info-section mb-5" style="display:none;">
+            <% if (inscripciones.length> 0) { %>
+                <div class="row">
+                    <% inscripciones.forEach(i=> { %>
+                        <div class="col-md-6 mb-3">
+                            <div class="box-content card">
+                                <div class="card-body">
+                                    <h6 class="card-title">Actividad: <%= i.actividad %>
+                                    </h6>
+                                    <p class="card-text mb-2">
+                                        <strong>Desde:</strong>
+                                        <%= new Date(i.fchInicio).toLocaleString('es-PE', { day:'2-digit',
+                                            month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit', hour12:
+                                            true }) %><br>
+                                            <strong>Hasta:</strong>
+                                            <%= new Date(i.fchFin).toLocaleString('es-PE', { day:'2-digit',
+                                                month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit',
+                                                hour12: true }) %>
+                                    </p>
+                                    <span class="badge rounded-pill bg-secondary px-3 py-2">Estado: <%=
+                                            i.estadoInscripcion %></span>
+                                </div>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+                <% } else { %>
+                    <p class="text-muted">No tienes inscripciones recientes.</p>
+                    <% } %>
+        </div>
+
+    </div>
+</div>
+
+<!-- Script para mostrar/ocultar secciones -->
+<script>
+    document.getElementById('info-selector').addEventListener('change', function () {
+        const sections = document.querySelectorAll('.info-section');
+        sections.forEach(section => section.style.display = 'none');
+        const selected = this.value;
+        document.getElementById(selected).style.display = 'block';
+    });
+</script>

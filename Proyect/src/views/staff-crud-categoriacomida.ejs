@@ -1,0 +1,60 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">CATEGORÍAS DE COMIDA</span>
+
+    <!-- Formulario para agregar nueva categoría -->
+    <div class="card p-4 mb-4 rounded-4" style="background-color: var(--background-color); border: none;">
+      <form action="/staff-crud-categoriacomida" method="POST">
+        <div class="mb-3">
+          <label for="descripcion" class="text-info-subtitle">Nueva categoría:</label>
+          <input type="text" name="descripcion" id="descripcion" class="form-control"
+            placeholder="Ej. Bebidas, Platos de fondo, etc." required />
+        </div>
+        <button type="submit" class="btn btn-custom">Registrar Categoria</button>
+      </form>
+    </div>
+
+    <!-- Tabla de categorías existentes -->
+    <div class="table-responsive mt-4">
+      <table class="table align-middle mb-0 transparent-table">
+        <thead>
+          <tr>
+            <th class="text-info-subtitle">ID</th>
+            <th class="text-info-subtitle">Descripción</th>
+            <th class="text-info-subtitle">Estado</th>
+            <th class="text-info-subtitle">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% categoriasComida.forEach(categoria=> { %>
+            <tr class="<%= categoria.estado === 'activo' ? '' : 'table-secondary' %> text-info-subtitle">
+              <td>
+                <%= categoria.idCtgComida %>
+              </td>
+              <td>
+                <%= categoria.descripcion %>
+              </td>
+              <td>
+                <%= categoria.estado %>
+              </td>
+              <td>
+                <div class="d-flex gap-2 flex-wrap">
+                  <a href="/staff-crud-categoriacomida/editar/<%= categoria.idCtgComida %>" class="btn btn-custom">
+                    Editar
+                  </a>
+                  <form action="/staff-crud-categoriacomida/cambiar-estado/<%= categoria.idCtgComida %>" method="POST"
+                    data-confirm="<%= categoria.estado === 'activo' ? '¿Estás seguro de desactivar esta categoría?' : '¿Estás seguro de activar esta categoría?' %>"
+                    onsubmit="return confirm(this.getAttribute('data-confirm'))">
+                    <button type="submit" class="btn btn-custom">
+                      <%= categoria.estado==='activo' ? 'Desactivar' : 'Activar' %>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

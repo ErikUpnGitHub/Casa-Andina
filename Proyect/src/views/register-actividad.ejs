@@ -1,0 +1,37 @@
+<div class="content-wrapper py-4">
+  <div class="container-fluid">
+    <span class="text text-info-title d-block mb-4">Registrar Nueva Actividad</span>
+
+    <form action="/staff-crud-actividad" method="POST" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <label class="text-info-subtitle">Detalle</label>
+          <textarea name="detalle" class="form-control" required></textarea>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label class="text-info-subtitle">Descripción</label>
+          <textarea name="descripcion" class="form-control"></textarea>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Duración (minutos)</label>
+          <input type="number" name="duracion" class="form-control" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="text-info-subtitle">Precio</label>
+          <input type="number" name="precio" step="0.01" class="form-control" required>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label class="text-info-subtitle">Imagen (opcional)</label>
+          <input type="file" name="imagen" accept="image/*" class="form-control">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-custom mt-2">Registrar</button>
+      <a href="/staff-crud-actividad" class="btn btn-custom mt-2">Cancelar</a>
+    </form>
+  </div>
+</div>

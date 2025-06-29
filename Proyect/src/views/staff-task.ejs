@@ -1,0 +1,154 @@
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <span class="text tile-text d-block mb-3">Servicios Asignados</span>
+
+    <% if (servicios.length > 0) { %>
+      <div class="row">
+        <% servicios.forEach(servicio => {
+          const productosAsociados = productosComida.filter(p => p.idServicio === servicio.idServicio);
+        %>
+          <div class="col-md-6 mb-3">
+            <div class="box-content card">
+              <div class="card-body">
+                <h6 class="card-title">
+                  Categoría: <strong><%= servicio.categoria_servicio %></strong>
+                </h6>
+
+                <p class="card-text mb-2">
+                  <strong>Habitación:</strong> <%= servicio.numero_habitacion ?? 'N/A' %><br />
+                  <strong>Cliente:</strong> <%= servicio.nombre_cliente %> <%= servicio.apellido_cliente %><br />
+                  <strong>Asignado:</strong>
+                  <%= new Date(servicio.fecha_asignacion).toLocaleString('es-PE', {
+                    day: '2-digit', month: '2-digit', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit', hour12: true
+                  }) %>
+                </p>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <span class="badge rounded-pill bg-secondary px-3 py-2 me-2">
+                      Estado: <%= servicio.estado_servicio %>
+                    </span>
+
+                    <% if (productosAsociados.length > 0) { %>
+                      <small class="text-primary fst-italic" role="button" style="cursor: pointer"
+                        data-bs-toggle="modal" data-bs-target="#modal-productos-<%= servicio.idServicio %>">
+                        Ver Pedido
+                      </small>
+                    <% } %>
+                  </div>
+
+                  <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#modal-estado-<%= servicio.idServicio %>">
+                    Cambiar Estado
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <% if (productosAsociados.length > 0) { %>
+            <!-- Modal Ver Pedido -->
+            <div class="modal fade" id="modal-productos-<%= servicio.idServicio %>" tabindex="-1"
+              aria-labelledby="modalLabel-<%= servicio.idServicio %>" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header py-2 px-3">
+                    <h6 class="modal-title" id="modalLabel-<%= servicio.idServicio %>">
+                      Productos - Servicio <%= servicio.idServicio %>
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                  </div>
+                  <div class="modal-body px-3 py-2">
+                    <ul class="list-group list-group-flush small">
+                      <% productosAsociados.forEach(p => { %>
+                        <li class="list-group-item px-2 py-1">
+                          <strong><%= p.producto %></strong><br />
+                          Cantidad: <%= p.cantidad %> | Unitario: S/ <%= Number(p.precio).toFixed(2) %><br />
+                          <strong>Total: S/ <%= (p.precio * p.cantidad).toFixed(2) %></strong>
+                        </li>
+                      <% }) %>
+                    </ul>
+                  </div>
+                  <div class="modal-footer py-2">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% } %>
+
+          <!-- Modal Cambiar Estado (SIEMPRE visible) -->
+          <div class="modal fade" id="modal-estado-<%= servicio.idServicio %>" tabindex="-1"
+            aria-labelledby="modalEstadoLabel-<%= servicio.idServicio %>" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+                <form class="form-cambiar-estado" data-id-servicio="<%= servicio.idServicio %>">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modalEstadoLabel-<%= servicio.idServicio %>">
+                      Confirmar cambio de estado
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p>¿Quieres cambiar el estado del servicio?</p>
+                    <select name="nuevoEstado" class="form-select" required>
+                      <option value="" disabled selected>Selecciona un nuevo estado</option>
+                      <option value="Pendiente">Pendiente</option>
+                      <option value="Finalizado">Finalizado</option>
+                      <option value="Cancelado">Cancelado</option>
+                    </select>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Confirmar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p class="text-muted">
+        No tienes servicios asignados en las últimas 24 horas.
+      </p>
+    <% } %>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.form-cambiar-estado').forEach(form => {
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const idServicio = form.dataset.idServicio;
+      const nuevoEstado = form.querySelector('select[name="nuevoEstado"]').value;
+
+      if (!nuevoEstado) {
+        alert('Selecciona un nuevo estado.');
+        return;
+      }
+
+      try {
+        const res = await fetch('/update-state-service', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idServicio: Number(idServicio), nuevoEstado })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert(data.mensaje);
+          location.reload();
+        } else {
+          alert(data.mensaje || 'Error al cambiar el estado.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al cambiar el estado del servicio.');
+      }
+    });
+  });
+</script>

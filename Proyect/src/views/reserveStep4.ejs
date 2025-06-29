@@ -1,0 +1,60 @@
+<div class="stepper-wrapper">
+    <div class="stepper-item completed">
+        <div class="step-counter">1</div>
+        <div class="step-name">Huespedes</div>
+    </div>
+    <div class="stepper-item completed">
+        <div class="step-counter">2</div>
+        <div class="step-name">Habitacion y Tarifa</div>
+    </div>
+    <div class="stepper-item completed">
+        <div class="step-counter">3</div>
+        <div class="step-name">Estadia</div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter process">4</div>
+        <div class="step-name">Monto Total</div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">5</div>
+        <div class="step-name">Finalizado</div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="step-content box">
+        <p class="text-info-title">MONTO TOTAL</p>
+
+        <ul class="list-group mb-4">
+
+            <li class="list-group-item">
+                <%= tipoHabitacion.nombre %>
+            </li>
+            <li class="list-group-item">
+                <strong>Adultos:</strong>
+                <%= adultos %> <strong>Niños:</strong>
+                    <%= ninos %>
+            </li>
+            <li class="list-group-item">
+                <strong>Fecha de entrada:</strong>
+                <%= fechaEntrada %>
+            </li>
+            <li class="list-group-item">
+                <strong>Fecha de salida:</strong>
+                <%= fechaSalida %>
+            </li>
+            <li class="list-group-item">
+                <strong>Monto total:</strong> S/ <%= montoTotal %>
+            </li>
+        </ul>
+
+        <form action="/reserveStep5" method="POST">
+            <input type="hidden" name="idUsuario" value="<%= idUsuario %>">
+            <input type="hidden" name="idTipoHbt" value="<%= idTipoHbt %>">
+            <input type="hidden" name="fechaEntrada" value="<%= fechaEntrada %>">
+            <input type="hidden" name="fechaSalida" value="<%= fechaSalida %>">
+            <button type="submit" class="btn btn-primary w-100">Confirmar y Pagar</button>
+        </form>
+        
+    </div>
+</div>

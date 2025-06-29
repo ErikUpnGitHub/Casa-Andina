@@ -1,0 +1,67 @@
+<div class="stepper-wrapper">
+    <div class="stepper-item completed">
+        <div class="step-counter">1</div>
+        <div class="step-name"><%= __('step-bones') %></div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter process">2</div>
+        <div class="step-name"><%= __('step-room-rate') %></div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">3</div>
+        <div class="step-name"><%= __('step-stay') %></div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">4</div>
+        <div class="step-name"><%= __('step-total') %></div>
+    </div>
+    <div class="stepper-item">
+        <div class="step-counter">5</div>
+        <div class="step-name"><%= __('step-finalized') %></div>
+    </div>
+</div>
+
+<div class="content-wrapper">
+    <div class="step-content box">
+        <p class="text-info-title"><%= __('step-room-rate') %></p>
+        
+        <div class="full-box habitaciones-grid">
+            <% if (tiposHabitacion.length===0) { %>
+                <p class="no-habitaciones-msg">No hay habitaciones disponibles para esta cantidad de huéspedes.</p>
+                <% } else { %>
+                    <% tiposHabitacion.forEach(tipo=> { %>
+                        <div class="box">
+                            <p class="text-info-title2">
+                                <%= tipo.nombre.split(' ').slice(0, 2).join(' ') %>
+                                <br>
+                                <%= tipo.nombre.split(' ').slice(2).join(' ') %>
+                            </p>
+
+                            <img src="/img/rooms/<%= tipo.idTipoHbt %>/1.png" class="card-img">
+
+                            <div class="card-content">
+                                <p class="text-info-subtitle">S/ <%= tipo.precio %></p>
+                                <p class="text-info-content">
+                                    <strong>Tamaño:</strong> <%= tipo.tamano %> cm²<br>
+                                    <strong>Cama:</strong> <%= tipo.cama %><br>
+                                    <strong>Capacidad:</strong> <%= tipo.adultos %> adulto(s), <%= tipo.ninos %> niño(s)
+                                </p>
+                            </div>
+
+                            <form action="/reserveStep3" method="GET" class="habitacion-form">
+                                <input type="hidden" name="idTipoHbt" value="<%= tipo.idTipoHbt %>">
+                                <input type="hidden" name="adultos" value="<%= adultos %>">
+                                <input type="hidden" name="ninos" value="<%= ninos %>">
+                                
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary w-100 btn-login">
+                                        <%= __('choose') %>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                <% }); %>
+            <% } %>
+        </div>
+    </div>
+</div>

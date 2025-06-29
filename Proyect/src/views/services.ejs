@@ -1,0 +1,97 @@
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <div class="col-md-6 mb-4">
+            <span class="text tile-text d-block mb-3">
+                <%= __('sb-services') %>
+            </span>
+        </div>
+
+        <div class="full-box habitaciones-grid">
+            <% categorias.forEach((cat)=> { %>
+                <div class="box">
+                    <p class="text-info-title2">
+                        <%= cat.detalle %>
+                    </p>
+
+                    <img src="/img/category-service/<%= cat.idCtgServicio %>.png" class="card-img">
+
+                    <div class="card-content">
+                        <p class="text-info-title">
+                            <% if (parseFloat(cat.precio)===0) { %>
+                                GRATIS
+                                <% } else { %>
+                                    S/ <%= cat.precio %>
+                                        <% } %>
+                        </p>
+
+                        <p class="text-info-content">
+                            <%= cat.descripcion %>
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <% if (cat.idCtgServicio===1) { %>
+                            <a href="/order-food" class="btn btn-primary w-100 btn-login">
+                                VER MENÚ
+                            </a>
+                            <% } else { %>
+                                <button class="btn btn-primary w-100 btn-login solicitar-btn"
+                                    data-id="<%= cat.idCtgServicio %>" data-nombre="<%= cat.detalle %>">
+                                    SOLICITAR
+                                </button>
+                                <% } %>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div class="modal fade" id="confirmarModal" tabindex="-1" aria-labelledby="confirmarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar solicitud</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                ¿Deseas solicitar el servicio: <span id="nombreServicio"></span>?
+            </div>
+            <div class="modal-footer">
+                <a href="#" id="confirmarBtn" class="btn btn-success">CONFIRMAR</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="formInsertarServicio" action="/insertar-servicio" method="POST" style="display: none;">
+    <input type="hidden" name="idCtgServicio" id="inputIdCtgServicio">
+</form>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = new bootstrap.Modal(document.getElementById('confirmarModal'));
+        const confirmarBtn = document.getElementById('confirmarBtn');
+        const nombreServicio = document.getElementById('nombreServicio');
+
+        document.querySelectorAll('.solicitar-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                const nombre = btn.getAttribute('data-nombre');
+
+                nombreServicio.textContent = nombre;
+
+                confirmarBtn.onclick = () => {
+                    document.getElementById('inputIdCtgServicio').value = id;
+                    document.getElementById('formInsertarServicio').submit();
+                };
+
+                modal.show();
+            });
+
+        });
+    });
+</script>

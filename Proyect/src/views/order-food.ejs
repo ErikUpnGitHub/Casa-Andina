@@ -1,0 +1,247 @@
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Barra de Búsqueda -->
+      <div class="col-md-6 mb-4">
+        <span class="text tile-text d-block mb-3">
+          <%= __('sb-order-food') %>
+        </span>
+
+        <div class="input-group search-bar">
+          <input id="buscador-comida" type="text" class="form-control text-info-content" placeholder="Buscar comida..."
+            aria-label="Buscar comida">
+
+        </div>
+      </div>
+
+      <!-- Categorías de Comida -->
+      <div class="col-md-6">
+        <div class="food-categories d-flex flex-nowrap overflow-auto">
+          <% categorias.forEach(cat=> { %>
+            <div class="category-item" data-id="<%= cat.idCtgComida %>">
+              <div class="icon-wrapper">
+                <img src="/img/food-category/<%= cat.idCtgComida %>.png" alt="icono de <%= cat.descripcion %>" />
+              </div>
+              <span class="text-info-subtitle">
+                <%= cat.descripcion.toUpperCase() %>
+              </span>
+            </div>
+            <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Productos Activos -->
+  <div class="full-box habitaciones-grid" id="productos-container">
+    <% productos.forEach(producto=> { %>
+      <div class="box producto-item" data-nombre="<%= (producto.nombre + ' ' + producto.descripcion).toLowerCase() %>"
+        data-categoria="<%= producto.idCtgComida %>">
+        <p class="text-info-subtitle" style="text-align: center;">
+          <%= producto.nombre.toUpperCase() %>
+        </p>
+        <img src="/img/food/<%= producto.idProducto %>.png" class="card-img">
+        <div class="card-content mt-2">
+          <p class="text-info-title mb-0">S/ <%= parseFloat(producto.precio).toFixed(2) %>
+          </p>
+
+          <div class="add-to-cart mt-2 d-flex align-items-center justify-content-center gap-2">
+            <input type="number" class="form-control cantidad-input" min="1" value="1" style="width: 70px;">
+            <button class="btn btn-primary btn-sm agregar-carrito" data-id="<%= producto.idProducto %>"
+              data-nombre="<%= producto.nombre %>" data-precio="<%= producto.precio %>">
+              Agregar
+            </button>
+          </div>
+
+
+        </div>
+      </div>
+      <% }) %>
+  </div>
+
+  <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#carritoModal">
+    Ver Carrito 🛒 (<span id="cantidad-carrito">0</span>)
+  </button>
+
+
+  <!-- Modal del Carrito -->
+  <div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="carritoModalLabel">🛒 Carrito de Compras</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <ul id="lista-carrito" class="list-group"></ul>
+          <div class="mt-3 text-end">
+            <strong>Total: S/ <span id="total-carrito">0.00</span></strong>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" id="finalizarCompraBtn">Finalizar Compra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputBusqueda = document.getElementById('buscador-comida');
+    const productos = document.querySelectorAll('.producto-item');
+
+    inputBusqueda.addEventListener('input', () => {
+      const texto = inputBusqueda.value.toLowerCase().trim();
+
+      productos.forEach(producto => {
+        const nombre = producto.dataset.nombre;
+        if (nombre.includes(texto)) {
+          producto.style.display = 'block';
+        } else {
+          producto.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const inputBusqueda = document.getElementById('buscador-comida');
+    const productos = document.querySelectorAll('.producto-item');
+    const categorias = document.querySelectorAll('.category-item');
+
+    let categoriaSeleccionada = null;
+
+    function filtrar() {
+      const texto = inputBusqueda.value.toLowerCase().trim();
+
+      productos.forEach(prod => {
+        const nombre = prod.dataset.nombre;
+        const categoria = prod.dataset.categoria;
+        const coincideTexto = nombre.includes(texto);
+        const coincideCategoria = !categoriaSeleccionada || categoria === categoriaSeleccionada;
+
+        prod.style.display = (coincideTexto && coincideCategoria) ? 'block' : 'none';
+      });
+    }
+
+    inputBusqueda.addEventListener('input', filtrar);
+
+    categorias.forEach(cat => {
+      cat.addEventListener('click', () => {
+        // Marcar la categoría activa visualmente
+        categorias.forEach(c => c.classList.remove('active'));
+        cat.classList.add('active');
+
+        categoriaSeleccionada = cat.dataset.id;
+        filtrar();
+      });
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    const listaCarrito = document.getElementById('lista-carrito');
+    const totalCarrito = document.getElementById('total-carrito');
+
+    function guardarCarrito() {
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+    }
+
+    function actualizarCarrito() {
+      listaCarrito.innerHTML = '';
+      let total = 0;
+      let totalCantidad = 0;
+
+      carrito.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+
+        li.innerHTML = `
+      ${item.nombre} x ${item.cantidad} - S/ ${(item.precio * item.cantidad).toFixed(2)}
+      <button class="btn btn-danger btn-sm eliminar-item" data-index="${index}">Eliminar</button>
+    `;
+
+        listaCarrito.appendChild(li);
+        total += item.precio * item.cantidad;
+        totalCantidad += item.cantidad;
+      });
+
+      totalCarrito.textContent = total.toFixed(2);
+      document.getElementById('cantidad-carrito').textContent = totalCantidad;
+      guardarCarrito();
+
+      // Botones para eliminar productos
+      document.querySelectorAll('.eliminar-item').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const idx = e.target.dataset.index;
+          carrito.splice(idx, 1);
+          actualizarCarrito();
+        });
+      });
+    }
+
+    // Cargar el carrito desde localStorage al iniciar
+    actualizarCarrito();
+
+    // Evento agregar al carrito
+    document.querySelectorAll('.agregar-carrito').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const nombre = btn.dataset.nombre;
+        const precio = parseFloat(btn.dataset.precio);
+        const cantidadInput = btn.parentElement.querySelector('.cantidad-input');
+        const cantidad = parseInt(cantidadInput.value);
+
+        if (cantidad > 0) {
+          const existente = carrito.find(p => p.id === id);
+          if (existente) {
+            existente.cantidad += cantidad;
+          } else {
+            carrito.push({ id, nombre, precio, cantidad });
+          }
+          actualizarCarrito();
+          cantidadInput.value = 1;
+        }
+      });
+    });
+  });
+
+  document.getElementById('finalizarCompraBtn').addEventListener('click', () => {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    if (carrito.length === 0) {
+      alert('El carrito está vacío.');
+      return;
+    }
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/successful-food';
+
+    const inputCtg = document.createElement('input');
+    inputCtg.type = 'hidden';
+    inputCtg.name = 'idCtgServicio';
+    inputCtg.value = '1';
+    form.appendChild(inputCtg);
+
+    const inputCarrito = document.createElement('input');
+    inputCarrito.type = 'hidden';
+    inputCarrito.name = 'carrito';
+    inputCarrito.value = JSON.stringify(carrito);
+    form.appendChild(inputCarrito);
+
+    document.body.appendChild(form);
+
+    localStorage.removeItem('carrito');
+
+    form.submit();
+  });
+
+
+</script>
